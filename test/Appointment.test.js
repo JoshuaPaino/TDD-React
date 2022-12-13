@@ -1,12 +1,14 @@
-// Need to import react and ReactDom because it's used inside of the test suite
+// Dependencies
 import React from "react";
 import ReactDOM from "react-dom/client";
-// Appointment is not defined so it needs to be imported
+// Imports
 import { Appointment } from "../src/Appointment";
-// ACT makes sures that the rednering is finisehd before the test is ran
+import { AppointmentsDayView } from "../src/AppointmentsDayView";
 import { act } from "react-dom/test-utils";
 
+// Start Appointment
 describe("Appointment", () => {
+  // Global Vars
   let container;
   let customer;
 
@@ -28,4 +30,27 @@ describe("Appointment", () => {
     render(<Appointment customer={customer} />);
     expect(document.body.textContent).toContain("Jordan");
   });
+  //End
 });
+// End Appointment
+
+// Start AppointmentsDayView
+describe("AppointmentsDayView", () => {
+  // Global Vars
+  let container;
+
+  beforeEach(() => {
+    container = document.createElement("div");
+    document.body.replaceChildren(container);
+  });
+
+  const render = (component) =>
+    act(() => ReactDOM.createRoot(container).render(component));
+
+  it("renders a div with the right id", () => {
+    render(<AppointmentsDayView appointments={[]} />);
+    expect(document.querySelector("div#appointmentsDayView")).not.toBeNull();
+  });
+  // End
+});
+// End AppointmentsDayView
