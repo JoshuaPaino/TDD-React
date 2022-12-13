@@ -3,8 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 // Appointment is not defined so it needs to be imported
 import { Appointment, AppointmentsDayView } from "../src/AppointmentsDayView";
-import { act } from "react-dom/test-utils";
-import { initializeReactContainer, container } from "./reactTestExtensions";
+import { initializeReactContainer, render, click } from "./reactTestExtensions";
 
 // Start Appointment
 describe("Appointment", () => {
@@ -14,9 +13,6 @@ describe("Appointment", () => {
   beforeEach(() => {
     initializeReactContainer();
   });
-
-  const render = (component) =>
-    act(() => ReactDOM.createRoot(container).render(component));
 
   it("renders the customer first name", () => {
     customer = { firstName: "Ashley" };
@@ -45,8 +41,6 @@ describe("AppointmentsDayView", () => {
     initializeReactContainer();
   });
 
-  const render = (component) =>
-    act(() => ReactDOM.createRoot(container).render(component));
   it("renders a div with the right id", () => {
     render(<AppointmentsDayView appointments={[]} />);
     expect(document.querySelector("div#appointmentsDayView")).not.toBeNull();
@@ -93,7 +87,7 @@ describe("AppointmentsDayView", () => {
   it("renders another appointment when selected", () => {
     render(<AppointmentsDayView appointments={twoAppointments} />);
     const button = document.querySelectorAll("button")[1];
-    act(() => button.click());
+    click(button);
     expect(document.body.textContent).toContain("Jordan");
   });
   // End
