@@ -3,20 +3,18 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 // Appointment is not defined so it needs to be imported
 import { Appointment, AppointmentsDayView } from "../src/AppointmentsDayView";
-// ACT makes sures that the rednering is finisehd before the test is ran
 import { act } from "react-dom/test-utils";
+import { initializeReactContainer, container } from "./reactTestExtensions";
 
 // Start Appointment
 describe("Appointment", () => {
   // Global Vars
-  let container;
   let customer;
 
   beforeEach(() => {
-    container = document.createElement("div");
-    // AppendChild got replaced with replaceChildren so the test ran seperately
-    document.body.replaceChildren(container);
+    initializeReactContainer();
   });
+
   const render = (component) =>
     act(() => ReactDOM.createRoot(container).render(component));
 
@@ -43,16 +41,12 @@ describe("AppointmentsDayView", () => {
     { startsAt: today.setHours(13, 0), customer: { firstName: "Jordan" } },
   ];
 
-  let container;
-
   beforeEach(() => {
-    container = document.createElement("div");
-    document.body.replaceChildren(container);
+    initializeReactContainer();
   });
 
   const render = (component) =>
     act(() => ReactDOM.createRoot(container).render(component));
-
   it("renders a div with the right id", () => {
     render(<AppointmentsDayView appointments={[]} />);
     expect(document.querySelector("div#appointmentsDayView")).not.toBeNull();
